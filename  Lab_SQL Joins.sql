@@ -24,7 +24,7 @@ JOIN country co ON ci.country_id = co.country_id;
 
 SELECT store.store_id, SUM(payment.amount) AS total_revenue
 FROM store
-JOIN staff ON store.manager_staff_id = staff.staff_id
+JOIN staff ON store.store_id = staff.store_id
 JOIN payment ON staff.staff_id = payment.staff_id
 GROUP BY store.store_id;
 
@@ -58,7 +58,7 @@ ORDER BY rental_count DESC
 LIMIT 10;
 
 --    7. Determine if "Academy Dinosaur" can be rented from Store 1.
-
+    
 SELECT 
     IFNULL(
         CASE 
@@ -71,8 +71,11 @@ FROM
     inventory
 JOIN 
     film ON inventory.film_id = film.film_id
+JOIN 
+    store ON inventory.store_id = store.store_id
 WHERE 
-    film.title = 'Academy Dinosaur';
+    film.title = 'Academy Dinosaur'
+    AND store.store_id = 1;
 
 --    8. Provide a list of all distinct film titles, along with their availability status in the inventory. Include a column indicating whether each title is 'Available' or 'NOT available.' Note that there are 42 titles that are not in the inventory, and this information can be obtained using a CASE statement combined with IFNULL."
     
