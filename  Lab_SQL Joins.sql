@@ -60,20 +60,22 @@ LIMIT 10;
 --    7. Determine if "Academy Dinosaur" can be rented from Store 1.
 
 SELECT 
-    CASE 
-        WHEN COUNT(*) > 0 THEN 'Available' 
-        ELSE 'Not Available' 
-    END AS available
+    IFNULL(
+        CASE 
+            WHEN COUNT(*) > 0 THEN 'Available' 
+            ELSE 'NOT available' 
+        END,
+        'NOT in inventory'
+    ) AS availability_status
 FROM 
     inventory
 JOIN 
     film ON inventory.film_id = film.film_id
 WHERE 
-    film.title = 'Academy Dinosaur' 
-    AND inventory.store_id = 1;
+    film.title = 'Academy Dinosaur';
 
 --    8. Provide a list of all distinct film titles, along with their availability status in the inventory. Include a column indicating whether each title is 'Available' or 'NOT available.' Note that there are 42 titles that are not in the inventory, and this information can be obtained using a CASE statement combined with IFNULL."
-
+    
 SELECT 
     film.title AS film_title,
     IFNULL(
